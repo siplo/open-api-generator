@@ -1,0 +1,73 @@
+openapi: 3.0.2
+info:
+  title: spirng webclient API
+  description:
+    just for bug issue purpose
+
+  termsOfService:  /terms-of-use
+  contact:
+    name: siplo.sk
+    url:  http://siplo.sk
+    email: info@siplo.com
+  version: 0.1.0
+paths:
+  /document/{id}:
+    get:
+      operationId: sendDocumentToClient
+      tags:
+        - document
+      summary: send document to client by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of document
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          $ref: '#/components/responses/document-response'
+  /document/different/response/definition/{id}:
+    get:
+      operationId: sendDifferentDocumentToClient
+      tags:
+        - document
+      summary: send document to client by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of document
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          $ref: '#/components/responses/document-responses'
+          headers:
+            X-Mycustom-Header:
+              description: information which I want to send to client via HTTP headers
+              schema:
+                type: string
+components:
+  responses:
+    document-response:
+      description: This response represents response from third party system which processed invoice.
+      content:
+        application/xml:
+          schema:
+            type: string
+            format: binary
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: string
+          description: token will be used to identify which file/files was downloaded in previous run
+    document-responses:
+      description: This response represents response from third party system which processed invoice.
+      content:
+        application/zip:
+          schema:
+            type: string
+            format: binary
